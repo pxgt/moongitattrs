@@ -25,3 +25,33 @@ portable across MoonBit backends.
 
 The library targets MoonBit's stable `wasm`, `wasm-gc`, `js`, and `native`
 backends. Core parsing and evaluation have no network or file-system dependency.
+
+## Module responsibilities
+
+- `assignment.mbt` owns attribute-name validation and the four assignment forms.
+- `parser.mbt` turns source text into ordered rules, macros and diagnostics.
+- `pattern.mbt` contains the deterministic Git-style path matcher.
+- `sources.mbt` composes already ordered configuration sources.
+- `evaluator.mbt` applies matching rules and expands attribute macros.
+- `audit.mbt` reports repository-policy risks without changing the rule result.
+- `render.mbt` provides stable terminal, JSON and Markdown representations.
+- `cmd/main` is the only package that reads files or exits with process codes.
+
+## Precedence contract
+
+`parse_sources` accepts sources from lowest to highest precedence. Within a source,
+later matching lines override earlier lines one attribute at a time. A caller that
+wants Git's complete precedence order should pass system attributes, global
+attributes, root and successively deeper `.gitattributes` files, then
+`.git/info/attributes`.
+
+## Non-goals
+
+- changing files, line endings or Git index state;
+- launching Git or reproducing diff and merge drivers;
+- discovering repository files automatically in the portable library;
+- promising classification results for third-party services such as Linguist.
+
+These boundaries keep the core deterministic and make it suitable for browser,
+Wasm and native tooling. Future maintenance can add adapters without coupling the
+rule engine to a particular file system.
