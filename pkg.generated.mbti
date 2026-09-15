@@ -1,0 +1,124 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Xpeng/moongitattrs"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn is_valid_attribute_name(String) -> Bool
+
+pub fn match_pattern(String, String, base_dir? : String) -> Bool
+
+pub fn parse(String, source? : String, base_dir? : String) -> RuleSet
+
+pub fn parse_assignment(String) -> Assignment raise AttributeError
+
+pub fn parse_sources(ArrayView[AttributeSource]) -> RuleSet
+
+// Errors
+pub(all) suberror AttributeError {
+  InvalidAssignment(String)
+  InvalidAttributeName(String)
+} derive(Eq, @debug.Debug)
+
+// Types and methods
+pub(all) struct Assignment {
+  name : String
+  state : AttributeState
+} derive(Eq, ToJson, @debug.Debug)
+pub fn Assignment::to_token(Self) -> String
+
+pub(all) struct AttributeSource {
+  source : String
+  base_dir : String
+  content : String
+} derive(Eq, @debug.Debug)
+pub fn AttributeSource::new(String, String, base_dir? : String) -> Self
+
+pub(all) enum AttributeState {
+  Set
+  Unset
+  Value(String)
+  Unspecified
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct AuditReport {
+  diagnostics : Array[Diagnostic]
+  findings : Array[Finding]
+} derive(Eq, ToJson, @debug.Debug)
+pub fn AuditReport::has_errors(Self) -> Bool
+pub fn AuditReport::to_json_string(Self) -> String
+pub fn AuditReport::to_markdown(Self) -> String
+
+pub(all) struct Diagnostic {
+  code : String
+  severity : Severity
+  message : String
+  source : String
+  line : Int
+  column : Int
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct Evaluation {
+  path : String
+  attributes : Array[ResolvedAttribute]
+  matched_rules : Array[Int]
+} derive(Eq, ToJson, @debug.Debug)
+pub fn Evaluation::attribute(Self, String) -> AttributeState
+pub fn Evaluation::to_json_string(Self) -> String
+pub fn Evaluation::to_text(Self) -> String
+
+pub(all) struct Finding {
+  code : String
+  severity : Severity
+  message : String
+  source : String
+  line : Int
+  pattern : String
+  attribute : String?
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct MacroDefinition {
+  name : String
+  assignments : Array[Assignment]
+  source : String
+  line : Int
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct ResolvedAttribute {
+  name : String
+  state : AttributeState
+  source : String
+  line : Int
+  pattern : String
+  rule_index : Int
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct Rule {
+  pattern : String
+  assignments : Array[Assignment]
+  source : String
+  line : Int
+  base_dir : String
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct RuleSet {
+  rules : Array[Rule]
+  macros : Array[MacroDefinition]
+  diagnostics : Array[Diagnostic]
+} derive(Eq, ToJson, @debug.Debug)
+pub fn RuleSet::audit(Self) -> AuditReport
+pub fn RuleSet::evaluate(Self, String) -> Evaluation
+pub fn RuleSet::evaluate_many(Self, ArrayView[String]) -> Array[Evaluation]
+pub fn RuleSet::matching_rules(Self, String) -> Array[Rule]
+
+pub(all) enum Severity {
+  Info
+  Warning
+  Error
+} derive(Eq, ToJson, @debug.Debug)
+
+// Type aliases
+
+// Traits
