@@ -24,3 +24,7 @@ keywords = [ "git", "gitattributes", "path-matching", "repository-tooling" ]
 preferred_target = "wasm-gc"
 
 description = "Parse, evaluate, explain, and audit .gitattributes rules in MoonBit"
+
+import {
+  "moonbitlang/x@0.5.5",
+}

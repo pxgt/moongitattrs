@@ -1,5 +1,8 @@
-// import {
-//   "Xpeng/moongitattrs" @lib,
-// }
+import {
+  "Xpeng/moongitattrs" @lib,
+  "moonbitlang/core/env",
+  "moonbitlang/x/fs",
+  "moonbitlang/x/sys",
+}
 
 pkgtype(kind: "executable")

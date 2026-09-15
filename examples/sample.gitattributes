@@ -1,0 +1,5 @@
+[attr]docs text diff
+*.md docs eol=lf
+*.mbt text eol=lf
+assets/** binary
+README.md export-subst
