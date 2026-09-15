@@ -19,7 +19,7 @@ repository = "https://github.com/pxgt/moongitattrs"
 
 license = "Apache-2.0"
 
-keywords = ["git", "gitattributes", "path-matching", "repository-tooling"]
+keywords = [ "git", "gitattributes", "path-matching", "repository-tooling" ]
 
 preferred_target = "wasm-gc"
 
