@@ -145,7 +145,8 @@ fn parse_line(
     )
   }
   guard tokenized.tokens is [pattern, .. rest] else { return }
-  if pattern.has_prefix("!") {
+  let escaped_leading_bang = trimmed.has_prefix("\\!")
+  if pattern.has_prefix("!") && !escaped_leading_bang {
     diagnostics.push(
       diagnostic(
         "MGA005",

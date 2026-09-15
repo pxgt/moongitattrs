@@ -62,3 +62,11 @@ test "parse root macro and reject nested macro" {
   )
   inspect(nested.diagnostics[0].code, content="MGA007")
 }
+
+///|
+test "escaped leading markers remain literal patterns" {
+  let rules = @moongitattrs.parse("\\!important text\n\\#manifest text\n")
+  inspect(rules.diagnostics.length(), content="0")
+  inspect(rules.rules[0].pattern, content="!important")
+  inspect(rules.rules[1].pattern, content="#manifest")
+}

@@ -59,3 +59,34 @@ test "escaped metacharacters are literal" {
   assert_true(@moongitattrs.match_pattern("file\\*.txt", "file*.txt"))
   assert_false(@moongitattrs.match_pattern("file\\*.txt", "file1.txt"))
 }
+
+///|
+test "pattern without slash matches basename, not a parent component" {
+  assert_true(@moongitattrs.match_pattern("guide.md", "docs/guide.md"))
+  assert_false(@moongitattrs.match_pattern("docs", "docs/guide.md"))
+  assert_false(@moongitattrs.match_pattern("src", "src/lib/main.mbt"))
+}
+
+///|
+test "slash patterns are relative to their attributes directory" {
+  assert_true(
+    @moongitattrs.match_pattern(
+      "images/*.jpg",
+      "docs/images/logo.jpg",
+      base_dir="docs",
+    ),
+  )
+  assert_false(
+    @moongitattrs.match_pattern(
+      "images/*.jpg",
+      "docs/images/archive/logo.jpg",
+      base_dir="docs",
+    ),
+  )
+}
+
+///|
+test "leading double star includes zero or many directories" {
+  assert_true(@moongitattrs.match_pattern("**/Makefile", "Makefile"))
+  assert_true(@moongitattrs.match_pattern("**/Makefile", "src/tools/Makefile"))
+}

@@ -175,8 +175,10 @@ pub fn match_pattern(
   if normalized_pattern.find("/") is Some(_) {
     wildmatch(normalized_pattern, relative)
   } else {
-    relative
-    .split("/")
-    .any(component => wildmatch(normalized_pattern, component.to_owned()))
+    let basename = match relative.rev_split_once("/") {
+      Some((_, name)) => name.to_owned()
+      None => relative
+    }
+    wildmatch(normalized_pattern, basename)
   }
 }
