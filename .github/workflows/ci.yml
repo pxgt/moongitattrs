@@ -48,6 +48,7 @@ jobs:
       - name: Run CLI examples
         run: |
           moon run cmd/main
+          moon run cmd/main -- audit .gitattributes
           moon run cmd/main -- explain examples/sample.gitattributes README.md
           moon run cmd/main -- explain-json examples/sample.gitattributes README.md
           moon run cmd/main -- audit examples/sample.gitattributes
