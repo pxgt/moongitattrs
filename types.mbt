@@ -88,6 +88,25 @@ pub(all) struct AttributeSource {
 } derive(Debug, Eq)
 
 ///|
+/// One actionable policy problem found in an attribute rule.
+pub(all) struct Finding {
+  code : String
+  severity : Severity
+  message : String
+  source : String
+  line : Int
+  pattern : String
+  attribute : String?
+} derive(Debug, Eq, ToJson)
+
+///|
+/// Repository-level audit result, including parser diagnostics.
+pub(all) struct AuditReport {
+  diagnostics : Array[Diagnostic]
+  findings : Array[Finding]
+} derive(Debug, Eq, ToJson)
+
+///|
 pub(all) suberror AttributeError {
   InvalidAssignment(String)
   InvalidAttributeName(String)
